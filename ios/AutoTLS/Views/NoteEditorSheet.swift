@@ -1,4 +1,7 @@
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct NoteEditorSheet: View {
     let contact: Contact
@@ -10,6 +13,8 @@ struct NoteEditorSheet: View {
     @State private var showingAddTemplateAlert = false
     @State private var newTemplateNote = ""
     @State private var newTemplateColor = "#2563EB"
+    
+    @FocusState private var isNoteFocused: Bool
     
     let palette: [String] = [
         "#6B7280", // Gray
@@ -24,14 +29,35 @@ struct NoteEditorSheet: View {
     var body: some View {
         NavigationView {
             Form {
-                // Section 1: Note content
-                Section(header: Text("Nội dung ghi chú cho \(contact.phoneNumber)")) {
+                // Section 1: Note content with quick Clear button
+                Section(header: HStack {
+                    Text("Ghi chú cho \(contact.phoneNumber)")
+                    Spacer()
+                    if !noteText.isEmpty {
+                        Button(action: {
+                            noteText = ""
+                        }) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "xmark.circle.fill")
+                                Text("Clear")
+                            }
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(.red)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(Color.red.opacity(0.12))
+                            .cornerRadius(6)
+                        }
+                        .buttonStyle(BorderlessButtonStyle())
+                    }
+                }) {
                     TextEditor(text: $noteText)
                         .frame(minHeight: 100)
                         .font(.body)
+                        .focused($isNoteFocused)
                 }
                 
-                // Section 2: Color picker
+                // Section 2: Color picker (chọn màu sẽ ẩn bàn phím ngay lập tức)
                 Section(header: Text("Màu sắc đánh dấu")) {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 14) {
@@ -53,6 +79,7 @@ struct NoteEditorSheet: View {
                                 )
                                 .onTapGesture {
                                     selectedColorHex = hex
+                                    dismissKeyboard()
                                 }
                             }
                         }
@@ -92,6 +119,7 @@ struct NoteEditorSheet: View {
                                 Button(action: {
                                     noteText = template.note
                                     selectedColorHex = template.color
+                                    dismissKeyboard()
                                 }) {
                                     Text("Dùng")
                                         .font(.caption.bold())
@@ -136,6 +164,13 @@ struct NoteEditorSheet: View {
             noteText = contact.note
             selectedColorHex = contact.noteColor.isEmpty ? "#6B7280" : contact.noteColor
         }
+    }
+    
+    private func dismissKeyboard() {
+        isNoteFocused = false
+        #if canImport(UIKit)
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        #endif
     }
 }
 
