@@ -14,3 +14,9 @@
 - **Định dạng dữ liệu liên hệ tương thích chéo 1-1:**
   `phoneNumber|note|noteColor|status`
 - **CI/CD:** GitHub Actions tự động build file cài đặt `.ipa` cho iOS (`.github/workflows/build-ipa.yml`).
+
+## 3. Phạm Vi Phát Triển (Scope Constraint) - CHỈ ÁP DỤNG CHO BẢN IOS
+- **Quy tắc bắt buộc:**
+  - Kể từ bây giờ, tất cả các yêu cầu chỉnh sửa, cập nhật tính năng, cải tiến giao diện, tối ưu hoá hoặc sửa lỗi **CHỈ ĐƯỢC PHÉP ÁP DỤNG CHO PHIÊN BẢN IOS** (nằm trong thư mục `ios/`).
+  - **TUYỆT ĐỐI KHÔNG** can thiệp hay sửa đổi mã nguồn của phiên bản Android (`app/`) trừ khi người dùng có yêu cầu rõ ràng bằng lời nhắc riêng biệt.
+  - Toàn bộ các tài nguyên, workflow GitHub Actions, cấu hình và tính năng mới đều tập trung tối ưu cho trải nghiệm người dùng trên iOS.
