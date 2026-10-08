@@ -46,7 +46,7 @@ class TelesaleViewModel: ObservableObject {
         }
     }
     
-    var totalCount: Int { contacts.size }
+    var totalCount: Int { contacts.count }
     var calledCount: Int { contacts.filter { $0.status == "Đã gọi" }.count }
     var waitingCount: Int { contacts.filter { $0.status == "Chờ gọi" }.count }
     
@@ -100,11 +100,12 @@ class TelesaleViewModel: ObservableObject {
     
     // MARK: - File Parsing & Persistence
     func loadContactsFromURL(_ url: URL) {
-        guard url.startAccessingSecurityScopedResource() else {
-            showToast("Không có quyền truy cập file.")
-            return
+        let isSecurityScoped = url.startAccessingSecurityScopedResource()
+        defer {
+            if isSecurityScoped {
+                url.stopAccessingSecurityScopedResource()
+            }
         }
-        defer { url.stopAccessingSecurityScopedResource() }
         
         do {
             let content = try String(contentsOf: url, encoding: .utf8)
@@ -199,7 +200,8 @@ class TelesaleViewModel: ObservableObject {
         }
         
         let content = serializeContacts()
-        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("AutoTLS_Contacts_\(Date().formatted(.iso8601)).txt")
+        let timestamp = Int(Date().timeIntervalSince1970)
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("AutoTLS_Contacts_\(timestamp).txt")
         do {
             try content.write(to: tempURL, atomically: true, encoding: .utf8)
             self.shareExportURL = tempURL
@@ -216,7 +218,6 @@ class TelesaleViewModel: ObservableObject {
             return
         }
         
-        // Find first contact with status "Chờ gọi" or index 0
         let targetIndex = contacts.firstIndex { $0.status == "Chờ gọi" } ?? 0
         isCampaignRunning = true
         currentIndex = targetIndex
@@ -257,7 +258,6 @@ class TelesaleViewModel: ObservableObject {
     private func makeCallForCurrentIndex() {
         guard currentIndex >= 0 && currentIndex < contacts.count else { return }
         
-        // Clear previous highlight
         for i in 0..<contacts.count {
             contacts[i].isCurrent = (i == currentIndex)
         }
@@ -323,8 +323,4 @@ class TelesaleViewModel: ObservableObject {
             self.showAlert = true
         }
     }
-}
-
-private extension Array {
-    var size: Int { count }
 }

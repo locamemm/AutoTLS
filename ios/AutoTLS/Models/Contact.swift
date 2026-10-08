@@ -1,5 +1,8 @@
 import Foundation
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct Contact: Identifiable, Codable, Equatable {
     var id: Int
@@ -40,6 +43,7 @@ extension Color {
     }
     
     func toHex() -> String {
+        #if canImport(UIKit)
         guard let components = UIColor(self).cgColor.components, components.count >= 3 else {
             return "#6B7280"
         }
@@ -47,5 +51,8 @@ extension Color {
         let g = Float(components[1])
         let b = Float(components[2])
         return String(format: "#%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
+        #else
+        return "#6B7280"
+        #endif
     }
 }

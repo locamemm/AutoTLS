@@ -39,28 +39,33 @@ struct ContentView: View {
             }
             .fileImporter(
                 isPresented: $isImportingFile,
-                allowedContentTypes: [.plainText, .text],
-                allowsMultipleSelection: false
+                allowedContentTypes: [.plainText]
             ) { result in
                 switch result {
-                case .success(let urls):
-                    if let selectedURL = urls.first {
-                        viewModel.loadContactsFromURL(selectedURL)
-                    }
+                case .success(let selectedURL):
+                    viewModel.loadContactsFromURL(selectedURL)
                 case .failure(let error):
                     viewModel.showToast("Lỗi chọn file: \(error.localizedDescription)")
                 }
             }
             .sheet(item: $viewModel.selectedContactForMenu) { contact in
-                ContactActionMenuSheet(contact: contact, viewModel: viewModel)
-                    .presentationDetents([.medium])
+                if #available(iOS 16.0, *) {
+                    ContactActionMenuSheet(contact: contact, viewModel: viewModel)
+                        .presentationDetents([.medium])
+                } else {
+                    ContactActionMenuSheet(contact: contact, viewModel: viewModel)
+                }
             }
             .sheet(item: $viewModel.editingNoteContact) { contact in
                 NoteEditorSheet(contact: contact, viewModel: viewModel)
             }
             .sheet(item: $viewModel.editingStatusContact) { contact in
-                StatusPickerSheet(contact: contact, viewModel: viewModel)
-                    .presentationDetents([.fraction(0.35)])
+                if #available(iOS 16.0, *) {
+                    StatusPickerSheet(contact: contact, viewModel: viewModel)
+                        .presentationDetents([.fraction(0.35)])
+                } else {
+                    StatusPickerSheet(contact: contact, viewModel: viewModel)
+                }
             }
             .sheet(isPresented: $viewModel.isShowingShareSheet) {
                 if let url = viewModel.shareExportURL {
