@@ -76,7 +76,7 @@ struct ContactActionMenuSheet: View {
                     icon: "message.circle.fill",
                     color: .cyan,
                     title: "Tra số trong Zalo",
-                    subtitle: "Mở trực tiếp ứng dụng Zalo"
+                    subtitle: "Mở profile zalo.me bằng Safari"
                 ) {
                     dismiss()
                     viewModel.openZalo(phoneNumber: contact.phoneNumber)

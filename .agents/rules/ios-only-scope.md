@@ -9,3 +9,7 @@
 - Sử dụng **SwiftUI**, **CallKit**, và **UniformTypeIdentifiers**.
 - Giữ giao diện Dark Mode chuẩn thẩm mỹ iOS, mượt mà và trực quan.
 - Đảm bảo CI/CD GitHub Actions (`.github/workflows/build-ipa.yml`) luôn build ra file `.ipa` thành công.
+
+## 3. Triệt Tiêu Thông Báo (Zero Interruptive Alerts)
+- Tuyệt đối không hiển thị popup alert, dialog xác nhận hay thông báo yêu cầu bấm "OK".
+- Mọi trạng thái cập nhật trực tiếp, mượt mà trên giao diện để đạt tốc độ thao tác tối đa cho người dùng.

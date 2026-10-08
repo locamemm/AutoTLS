@@ -21,14 +21,12 @@ class TelesaleViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var selectedStatusFilter: String = "Tất cả"
     
-    // UI Dialog Triggers
+    // UI Dialog Triggers (Chỉ giữ các sheet chức năng, loại bỏ hoàn toàn Alert popup)
     @Published var selectedContactForMenu: Contact? = nil
     @Published var editingNoteContact: Contact? = nil
     @Published var editingStatusContact: Contact? = nil
     @Published var shareExportURL: URL? = nil
     @Published var isShowingShareSheet: Bool = false
-    @Published var alertMessage: String? = nil
-    @Published var showAlert: Bool = false
     
     let callMonitor = CallMonitor()
     
@@ -70,7 +68,6 @@ class TelesaleViewModel: ObservableObject {
     func loadTemplates() {
         guard let data = UserDefaults.standard.data(forKey: templatesKey),
               let decoded = try? JSONDecoder().decode([TemplateMark].self, from: data) else {
-            // Default starter templates
             self.templates = [
                 TemplateMark(note: "Khách hẹn gọi lại", color: "#2563EB"),
                 TemplateMark(note: "Không nghe máy", color: "#D97706"),
@@ -112,15 +109,16 @@ class TelesaleViewModel: ObservableObject {
         
         do {
             let content = try String(contentsOf: url, encoding: .utf8)
-            parseContent(content)
+            let loadedCount = parseContent(content)
             saveContactsLocally()
-            showToast("Đã tải \(contacts.count) số điện thoại.")
+            statusMessage = "Đã tải chính xác \(loadedCount) số. Sẵn sàng bắt đầu."
         } catch {
-            showToast("Lỗi khi đọc file: \(error.localizedDescription)")
+            statusMessage = "Lỗi khi đọc file: \(error.localizedDescription)"
         }
     }
     
-    func parseContent(_ content: String) {
+    @discardableResult
+    func parseContent(_ content: String) -> Int {
         var newContacts: [Contact] = []
         var idCounter = 1
         let lines = content.components(separatedBy: .newlines)
@@ -132,12 +130,11 @@ class TelesaleViewModel: ObservableObject {
             }
         }
         
-        DispatchQueue.main.async {
-            self.contacts = newContacts
-            self.currentIndex = -1
-            self.isCampaignRunning = false
-            self.statusMessage = "Đã tải \(newContacts.count) số. Sẵn sàng bắt đầu."
-        }
+        self.contacts = newContacts
+        self.currentIndex = -1
+        self.isCampaignRunning = false
+        self.statusMessage = "Đã tải \(newContacts.count) số. Sẵn sàng bắt đầu."
+        return newContacts.count
     }
     
     private func parseContactLine(_ line: String, id: Int) -> Contact? {
@@ -198,7 +195,7 @@ class TelesaleViewModel: ObservableObject {
     
     func exportContactsFile() {
         guard !contacts.isEmpty else {
-            showToast("Danh sách trống, không có gì để xuất.")
+            statusMessage = "Danh sách trống, không có gì để xuất."
             return
         }
         
@@ -210,14 +207,14 @@ class TelesaleViewModel: ObservableObject {
             self.shareExportURL = tempURL
             self.isShowingShareSheet = true
         } catch {
-            showToast("Không tạo được file xuất: \(error.localizedDescription)")
+            statusMessage = "Không tạo được file xuất: \(error.localizedDescription)"
         }
     }
     
     // MARK: - Campaign Logic
     func startCampaign() {
         guard !contacts.isEmpty else {
-            showToast("Vui lòng tải danh sách số điện thoại trước.")
+            statusMessage = "Vui lòng tải danh sách số điện thoại trước."
             return
         }
         
@@ -243,7 +240,7 @@ class TelesaleViewModel: ObservableObject {
         if currentIndex < contacts.count {
             makeCallForCurrentIndex()
         } else {
-            showToast("Đã hoàn thành chiến dịch!")
+            statusMessage = "Đã hoàn thành chiến dịch!"
             stopCampaign()
         }
     }
@@ -278,13 +275,9 @@ class TelesaleViewModel: ObservableObject {
         guard let url = URL(string: "tel://\(cleaned)") else { return }
         
         if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:]) { success in
-                if !success {
-                    print("Không thể mở ứng dụng điện thoại")
-                }
-            }
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
-            showToast("Thiết bị không hỗ trợ tính năng gọi điện trực tiếp.")
+            statusMessage = "Thiết bị không hỗ trợ tính năng gọi điện trực tiếp."
         }
     }
     
@@ -292,8 +285,8 @@ class TelesaleViewModel: ObservableObject {
         if currentIndex >= 0 && currentIndex < contacts.count {
             contacts[currentIndex].status = "Đã gọi"
             saveContactsLocally()
-            statusMessage = "Cuộc gọi kết thúc. Nhấn 'Số tiếp theo' để gọi tiếp."
-            showToast("Cuộc gọi kết thúc. Nhấn 'Số tiếp theo'.")
+            // Không hiển thị alert popup, chỉ cập nhật thanh trạng thái
+            statusMessage = "Cuộc gọi kết thúc. Sẵn sàng cho 'Số tiếp theo'."
         }
     }
     
@@ -302,7 +295,8 @@ class TelesaleViewModel: ObservableObject {
         guard let idx = contacts.firstIndex(where: { $0.id == contact.id }) else { return }
         contacts[idx].status = newStatus
         saveContactsLocally()
-        showToast("Đã cập nhật trạng thái: \(newStatus)")
+        // Không hiển thị alert popup làm gián đoạn thao tác
+        statusMessage = "Đã đổi trạng thái sang: \(newStatus)"
     }
     
     func updateNote(for contact: Contact, newNote: String, newColor: String) {
@@ -310,65 +304,21 @@ class TelesaleViewModel: ObservableObject {
         contacts[idx].note = newNote
         contacts[idx].noteColor = newColor
         saveContactsLocally()
-        showToast("Đã lưu ghi chú cho \(contact.phoneNumber)")
+        statusMessage = "Đã lưu ghi chú cho \(contact.phoneNumber)"
     }
     
     func openZalo(phoneNumber: String) {
         let cleaned = phoneNumber.filter { $0.isNumber }
         guard !cleaned.isEmpty else { return }
 
-        // Sao chép số điện thoại vào bộ nhớ tạm (clipboard) để người dùng có thể dán tìm kiếm ngay lập tức
+        // Sao chép số điện thoại vào bộ nhớ tạm (clipboard) để sẵn sàng
         #if canImport(UIKit)
         UIPasteboard.general.string = cleaned
         #endif
 
-        // Định dạng chuẩn số điện thoại cho Zalo (chuyển đầu số 0 thành 84)
-        var formattedPhone = cleaned
-        if formattedPhone.hasPrefix("0") {
-            formattedPhone = "84" + formattedPhone.dropFirst()
-        } else if !formattedPhone.hasPrefix("84") {
-            formattedPhone = "84" + formattedPhone
-        }
-
-        let directAppURL = URL(string: "zalo://conversation?phone=\(formattedPhone)")
-        let fallbackAppURL = URL(string: "zalo://conversation?phone=\(cleaned)")
-        let basicAppURL = URL(string: "zalo://")
-
-        // Kiểm tra xem ứng dụng Zalo có được cài đặt trên máy không
-        if let basicAppURL = basicAppURL, UIApplication.shared.canOpenURL(basicAppURL) {
-            // Ưu tiên mở trực tiếp cửa sổ chat qua scheme zalo://
-            if let directAppURL = directAppURL {
-                UIApplication.shared.open(directAppURL, options: [:]) { success in
-                    if !success {
-                        // Thử lại với định dạng số nguyên bản nếu định dạng 84 không nhận
-                        if let fallbackAppURL = fallbackAppURL {
-                            UIApplication.shared.open(fallbackAppURL, options: [:]) { success2 in
-                                if !success2 {
-                                    UIApplication.shared.open(basicAppURL, options: [:], completionHandler: nil)
-                                }
-                            }
-                        } else {
-                            UIApplication.shared.open(basicAppURL, options: [:], completionHandler: nil)
-                        }
-                    }
-                }
-            } else {
-                UIApplication.shared.open(basicAppURL, options: [:], completionHandler: nil)
-            }
-            showToast("Đã mở Zalo (đã sao chép SĐT: \(cleaned))")
-        } else {
-            // Nếu thiết bị chưa cài đặt Zalo app, mở liên kết web dự phòng
-            if let webURL = URL(string: "https://zalo.me/\(cleaned)") {
-                UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
-            }
-            showToast("Đã sao chép SĐT: \(cleaned)")
-        }
-    }
-    
-    func showToast(_ message: String) {
-        DispatchQueue.main.async {
-            self.alertMessage = message
-            self.showAlert = true
+        // Mở thẳng trang cá nhân zalo.me qua trình duyệt Safari
+        if let safariURL = URL(string: "https://zalo.me/\(cleaned)") {
+            UIApplication.shared.open(safariURL, options: [:], completionHandler: nil)
         }
     }
 }

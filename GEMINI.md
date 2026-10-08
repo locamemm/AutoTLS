@@ -20,3 +20,10 @@
   - Kể từ bây giờ, tất cả các yêu cầu chỉnh sửa, cập nhật tính năng, cải tiến giao diện, tối ưu hoá hoặc sửa lỗi **CHỈ ĐƯỢC PHÉP ÁP DỤNG CHO PHIÊN BẢN IOS** (nằm trong thư mục `ios/`).
   - **TUYỆT ĐỐI KHÔNG** can thiệp hay sửa đổi mã nguồn của phiên bản Android (`app/`) trừ khi người dùng có yêu cầu rõ ràng bằng lời nhắc riêng biệt.
   - Toàn bộ các tài nguyên, workflow GitHub Actions, cấu hình và tính năng mới đều tập trung tối ưu cho trải nghiệm người dùng trên iOS.
+
+## 4. Tối Ưu Tốc Độ Thao Tác & Triệt Tiêu Thông Báo (Zero Interruptive Alerts)
+- **Quy tắc bắt buộc:**
+  - **TUYỆT ĐỐI KHÔNG** dùng các popup cảnh báo (`Alert`, `Dialog`, pop-up có nút `OK`) gây gián đoạn luồng làm việc telesale của người dùng.
+  - Loại bỏ toàn bộ các popup thông báo hoàn thành, kết thúc cuộc gọi, đổi trạng thái, lưu ghi chú, tải file...
+  - Mọi thông tin trạng thái chỉ cập nhật tinh tế vào nhãn trạng thái chính (`statusMessage`) hoặc các badge trên giao diện.
+  - Ưu tiên cao nhất cho **tốc độ thao tác (Instant Action)**: Người dùng bấm là thực hiện ngay lập tức, không bắt người dùng phải bấm "OK" hay xác nhận phiền hà.

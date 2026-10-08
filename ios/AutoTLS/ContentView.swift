@@ -45,7 +45,7 @@ struct ContentView: View {
                 case .success(let selectedURL):
                     viewModel.loadContactsFromURL(selectedURL)
                 case .failure(let error):
-                    viewModel.showToast("Lỗi chọn file: \(error.localizedDescription)")
+                    viewModel.statusMessage = "Lỗi chọn file: \(error.localizedDescription)"
                 }
             }
             .sheet(item: $viewModel.selectedContactForMenu) { contact in
@@ -71,13 +71,6 @@ struct ContentView: View {
                 if let url = viewModel.shareExportURL {
                     ShareActivityView(activityItems: [url])
                 }
-            }
-            .alert(isPresented: $viewModel.showAlert) {
-                Alert(
-                    title: Text("Thông báo"),
-                    message: Text(viewModel.alertMessage ?? ""),
-                    dismissButton: .default(Text("OK"))
-                )
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
