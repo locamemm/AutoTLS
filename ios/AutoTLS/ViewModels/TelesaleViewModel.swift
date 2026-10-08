@@ -1,6 +1,9 @@
 import Foundation
 import SwiftUI
 import Combine
+#if canImport(UIKit)
+import UIKit
+#endif
 
 class TelesaleViewModel: ObservableObject {
     static let defaultNoteColor = "#6B7280"
@@ -312,8 +315,53 @@ class TelesaleViewModel: ObservableObject {
     
     func openZalo(phoneNumber: String) {
         let cleaned = phoneNumber.filter { $0.isNumber }
-        if let url = URL(string: "https://zalo.me/\(cleaned)") {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        guard !cleaned.isEmpty else { return }
+
+        // Sao chép số điện thoại vào bộ nhớ tạm (clipboard) để người dùng có thể dán tìm kiếm ngay lập tức
+        #if canImport(UIKit)
+        UIPasteboard.general.string = cleaned
+        #endif
+
+        // Định dạng chuẩn số điện thoại cho Zalo (chuyển đầu số 0 thành 84)
+        var formattedPhone = cleaned
+        if formattedPhone.hasPrefix("0") {
+            formattedPhone = "84" + formattedPhone.dropFirst()
+        } else if !formattedPhone.hasPrefix("84") {
+            formattedPhone = "84" + formattedPhone
+        }
+
+        let directAppURL = URL(string: "zalo://conversation?phone=\(formattedPhone)")
+        let fallbackAppURL = URL(string: "zalo://conversation?phone=\(cleaned)")
+        let basicAppURL = URL(string: "zalo://")
+
+        // Kiểm tra xem ứng dụng Zalo có được cài đặt trên máy không
+        if let basicAppURL = basicAppURL, UIApplication.shared.canOpenURL(basicAppURL) {
+            // Ưu tiên mở trực tiếp cửa sổ chat qua scheme zalo://
+            if let directAppURL = directAppURL {
+                UIApplication.shared.open(directAppURL, options: [:]) { success in
+                    if !success {
+                        // Thử lại với định dạng số nguyên bản nếu định dạng 84 không nhận
+                        if let fallbackAppURL = fallbackAppURL {
+                            UIApplication.shared.open(fallbackAppURL, options: [:]) { success2 in
+                                if !success2 {
+                                    UIApplication.shared.open(basicAppURL, options: [:], completionHandler: nil)
+                                }
+                            }
+                        } else {
+                            UIApplication.shared.open(basicAppURL, options: [:], completionHandler: nil)
+                        }
+                    }
+                }
+            } else {
+                UIApplication.shared.open(basicAppURL, options: [:], completionHandler: nil)
+            }
+            showToast("Đã mở Zalo (đã sao chép SĐT: \(cleaned))")
+        } else {
+            // Nếu thiết bị chưa cài đặt Zalo app, mở liên kết web dự phòng
+            if let webURL = URL(string: "https://zalo.me/\(cleaned)") {
+                UIApplication.shared.open(webURL, options: [:], completionHandler: nil)
+            }
+            showToast("Đã sao chép SĐT: \(cleaned)")
         }
     }
     
