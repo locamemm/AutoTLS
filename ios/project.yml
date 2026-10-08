@@ -1,0 +1,26 @@
+name: AutoTLS
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "15.0"
+  xcodeVersion: "15.0"
+targets:
+  AutoTLS:
+    type: application
+    platform: iOS
+    sources:
+      - path: AutoTLS
+    settings:
+      base:
+        INFOPLIST_FILE: AutoTLS/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.autotelesale
+        PRODUCT_NAME: AutoTLS
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGN_IDENTITY: ""
+        DEVELOPMENT_TEAM: ""
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        GENERATE_INFOPLIST_FILE: NO

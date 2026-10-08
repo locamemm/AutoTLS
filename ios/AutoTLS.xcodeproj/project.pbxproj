@@ -1,0 +1,341 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BB0000012C12345600000001 /* AutoTLSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000001 /* AutoTLSApp.swift */; };
+		BB0000012C12345600000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000002 /* ContentView.swift */; };
+		BB0000012C12345600000004 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000004 /* Contact.swift */; };
+		BB0000012C12345600000005 /* TemplateMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000005 /* TemplateMark.swift */; };
+		BB0000012C12345600000006 /* TelesaleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000006 /* TelesaleViewModel.swift */; };
+		BB0000012C12345600000007 /* ContactRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000007 /* ContactRowView.swift */; };
+		BB0000012C12345600000008 /* NoteEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000008 /* NoteEditorSheet.swift */; };
+		BB0000012C12345600000009 /* StatusPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000009 /* StatusPickerSheet.swift */; };
+		BB0000012C1234560000000A /* ContactActionMenuSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C1234560000000A /* ContactActionMenuSheet.swift */; };
+		BB0000012C1234560000000B /* CallMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C1234560000000B /* CallMonitor.swift */; };
+		BB0000012C1234560000000C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000012C1234560000000C /* Assets.xcassets */; };
+		BB0000012C123456000000F1 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000012C123456000000F1 /* CallKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		AA0000012C12345600000001 /* AutoTLSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoTLSApp.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000003 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA0000012C12345600000004 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000005 /* TemplateMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateMark.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000006 /* TelesaleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelesaleViewModel.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000007 /* ContactRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRowView.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000008 /* NoteEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorSheet.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000009 /* StatusPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPickerSheet.swift; sourceTree = "<group>"; };
+		AA0000012C1234560000000A /* ContactActionMenuSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactActionMenuSheet.swift; sourceTree = "<group>"; };
+		AA0000012C1234560000000B /* CallMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallMonitor.swift; sourceTree = "<group>"; };
+		AA0000012C1234560000000C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA0000012C123456000000F1 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
+		DD0000012C12345600000001 /* AutoTLS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoTLS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		110000012C12345600000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB0000012C123456000000F1 /* CallKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CC0000012C12345600000000 = {
+			isa = PBXGroup;
+			children = (
+				CC0000012C12345600000001 /* AutoTLS */,
+				CC0000012C12345600000007 /* Frameworks */,
+				CC0000012C12345600000006 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CC0000012C12345600000001 /* AutoTLS */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000012C12345600000001 /* AutoTLSApp.swift */,
+				AA0000012C12345600000002 /* ContentView.swift */,
+				AA0000012C12345600000003 /* Info.plist */,
+				CC0000012C12345600000002 /* Models */,
+				CC0000012C12345600000003 /* ViewModels */,
+				CC0000012C12345600000004 /* Views */,
+				CC0000012C12345600000005 /* Services */,
+				AA0000012C1234560000000C /* Assets.xcassets */,
+			);
+			path = AutoTLS;
+			sourceTree = "<group>";
+		};
+		CC0000012C12345600000002 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000012C12345600000004 /* Contact.swift */,
+				AA0000012C12345600000005 /* TemplateMark.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CC0000012C12345600000003 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000012C12345600000006 /* TelesaleViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CC0000012C12345600000004 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000012C12345600000007 /* ContactRowView.swift */,
+				AA0000012C12345600000008 /* NoteEditorSheet.swift */,
+				AA0000012C12345600000009 /* StatusPickerSheet.swift */,
+				AA0000012C1234560000000A /* ContactActionMenuSheet.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CC0000012C12345600000005 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000012C1234560000000B /* CallMonitor.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		CC0000012C12345600000006 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DD0000012C12345600000001 /* AutoTLS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CC0000012C12345600000007 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA0000012C123456000000F1 /* CallKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE0000012C12345600000001 /* AutoTLS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 330000012C12345600000002 /* Build configuration list for PBXNativeTarget "AutoTLS" */;
+			buildPhases = (
+				110000012C12345600000001 /* Sources */,
+				110000012C12345600000002 /* Frameworks */,
+				110000012C12345600000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AutoTLS;
+			productName = AutoTLS;
+			productReference = DD0000012C12345600000001 /* AutoTLS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FF0000012C12345600000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					EE0000012C12345600000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = 330000012C12345600000001 /* Build configuration list for PBXProject "AutoTLS" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = vi;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				vi,
+				en,
+				Base,
+			);
+			mainGroup = CC0000012C12345600000000;
+			productRefGroup = CC0000012C12345600000006 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE0000012C12345600000001 /* AutoTLS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		110000012C12345600000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB0000012C1234560000000C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		110000012C12345600000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB0000012C12345600000001 /* AutoTLSApp.swift in Sources */,
+				BB0000012C12345600000002 /* ContentView.swift in Sources */,
+				BB0000012C12345600000004 /* Contact.swift in Sources */,
+				BB0000012C12345600000005 /* TemplateMark.swift in Sources */,
+				BB0000012C12345600000006 /* TelesaleViewModel.swift in Sources */,
+				BB0000012C12345600000007 /* ContactRowView.swift in Sources */,
+				BB0000012C12345600000008 /* NoteEditorSheet.swift in Sources */,
+				BB0000012C12345600000009 /* StatusPickerSheet.swift in Sources */,
+				BB0000012C1234560000000A /* ContactActionMenuSheet.swift in Sources */,
+				BB0000012C1234560000000B /* CallMonitor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		220000012C12345600000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		220000012C12345600000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		220000012C12345600000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AutoTLS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.autotelesale;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		220000012C12345600000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGNING_ALLOWED = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AutoTLS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.autotelesale;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		330000012C12345600000001 /* Build configuration list for PBXProject "AutoTLS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				220000012C12345600000001 /* Debug */,
+				220000012C12345600000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		330000012C12345600000002 /* Build configuration list for PBXNativeTarget "AutoTLS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				220000012C12345600000003 /* Debug */,
+				220000012C12345600000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = FF0000012C12345600000001 /* Project object */;
+}
