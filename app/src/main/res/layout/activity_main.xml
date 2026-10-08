@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <!-- Tiêu đề ứng dụng -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="📞 Auto Telesale Mobile"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Hàng nút điều khiển chính -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/loadFileButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Tải File"
+            android:background="@drawable/button_press_effect"
+            android:textColor="#FFFFFF"
+            android:stateListAnimator="@animator/button_press_state_list" />
+
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bắt đầu"
+            android:background="@drawable/button_press_effect"
+            android:textColor="#FFFFFF"
+            android:stateListAnimator="@animator/button_press_state_list" />
+    </LinearLayout>
+
+    <!-- Hàng nút điều khiển trong chiến dịch -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <Button
+            android:id="@+id/nextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:enabled="false"
+            android:text="Số tiếp theo"
+            android:background="@drawable/button_next_state"
+            android:textColor="#FFFFFF"
+            android:stateListAnimator="@animator/button_press_state_list" />
+
+        <Button
+            android:id="@+id/stopButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="Dừng"
+            android:background="@drawable/button_press_effect"
+            android:textColor="#FFFFFF"
+            android:stateListAnimator="@animator/button_press_state_list"
+            app:backgroundTint="@color/design_default_color_error" />
+    </LinearLayout>
+
+    <!-- Nhãn trạng thái -->
+    <TextView
+        android:id="@+id/statusLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sẵn sàng. Vui lòng tải file danh bạ."
+        android:textAlignment="center"
+        android:textStyle="italic"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- Danh sách số điện thoại (sử dụng RecyclerView) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contactsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/list_item_contact" />
+
+</LinearLayout>
