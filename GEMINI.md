@@ -11,8 +11,8 @@
 ## 2. Tiêu Chuẩn Công Nghệ Dự Án
 - **Android:** Kotlin, Jetpack Compose / XML Views, TelephonyManager.
 - **iOS:** SwiftUI (iOS 15+), CallKit (`CXCallObserver`), DocumentPicker / ShareLink.
-- **Định dạng dữ liệu liên hệ tương thích chéo 1-1:**
-  `phoneNumber|note|noteColor|status`
+- **Định dạng dữ liệu liên hệ:**
+  `phoneNumber;note;noteColor;status` (phân tách bằng dấu chấm phẩy `;`)
 - **CI/CD:** GitHub Actions tự động build file cài đặt `.ipa` cho iOS (`.github/workflows/build-ipa.yml`).
 
 ## 3. Phạm Vi Phát Triển (Scope Constraint) - CHỈ ÁP DỤNG CHO BẢN IOS

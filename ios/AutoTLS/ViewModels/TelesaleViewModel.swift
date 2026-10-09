@@ -141,13 +141,30 @@ class TelesaleViewModel: ObservableObject {
         let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmed.isEmpty { return nil }
         
-        if trimmed.contains("|") {
-            let parts = trimmed.components(separatedBy: "|")
+        // Ưu tiên định dạng chuẩn mới dấu chấm phẩy (;), đồng thời hỗ trợ tương thích ngược dấu xẹt dọc (|)
+        if trimmed.contains(";") {
+            let parts = splitRespectingEscape(trimmed, delimiter: ";")
             guard let firstPart = parts.first else { return nil }
             let phoneDigits = firstPart.filter { $0.isNumber }
             if phoneDigits.count < 9 { return nil }
             
-            let note = parts.count > 1 ? parts[1].replacingOccurrences(of: "\\n", with: "\n").replacingOccurrences(of: "\\|", with: "|") : ""
+            let note = parts.count > 1 ? parts[1]
+                .replacingOccurrences(of: "\\n", with: "\n")
+                .replacingOccurrences(of: "\\;", with: ";")
+                .replacingOccurrences(of: "\\|", with: "|") : ""
+            let color = (parts.count > 2 && !parts[2].trimmingCharacters(in: .whitespaces).isEmpty) ? parts[2] : Self.defaultNoteColor
+            let status = (parts.count > 3 && !parts[3].trimmingCharacters(in: .whitespaces).isEmpty) ? parts[3] : "Chờ gọi"
+            
+            return Contact(id: id, phoneNumber: phoneDigits, status: status, note: note, noteColor: color, isCurrent: false)
+        } else if trimmed.contains("|") {
+            let parts = splitRespectingEscape(trimmed, delimiter: "|")
+            guard let firstPart = parts.first else { return nil }
+            let phoneDigits = firstPart.filter { $0.isNumber }
+            if phoneDigits.count < 9 { return nil }
+            
+            let note = parts.count > 1 ? parts[1]
+                .replacingOccurrences(of: "\\n", with: "\n")
+                .replacingOccurrences(of: "\\|", with: "|") : ""
             let color = (parts.count > 2 && !parts[2].trimmingCharacters(in: .whitespaces).isEmpty) ? parts[2] : Self.defaultNoteColor
             let status = (parts.count > 3 && !parts[3].trimmingCharacters(in: .whitespaces).isEmpty) ? parts[3] : "Chờ gọi"
             
@@ -161,11 +178,35 @@ class TelesaleViewModel: ObservableObject {
         }
     }
     
+    private func splitRespectingEscape(_ text: String, delimiter: Character) -> [String] {
+        var parts: [String] = []
+        var current = ""
+        var isEscaped = false
+        for char in text {
+            if isEscaped {
+                current.append(char)
+                isEscaped = false
+            } else if char == "\\" {
+                isEscaped = true
+                current.append(char)
+            } else if char == delimiter {
+                parts.append(current)
+                current = ""
+            } else {
+                current.append(char)
+            }
+        }
+        parts.append(current)
+        return parts
+    }
+    
     func serializeContacts() -> String {
         var result = ""
         for contact in contacts {
-            let noteEscaped = contact.note.replacingOccurrences(of: "\n", with: "\\n").replacingOccurrences(of: "|", with: "\\|")
-            result += "\(contact.phoneNumber)|\(noteEscaped)|\(contact.noteColor)|\(contact.status)\n"
+            let noteEscaped = contact.note
+                .replacingOccurrences(of: "\n", with: "\\n")
+                .replacingOccurrences(of: ";", with: "\\;")
+            result += "\(contact.phoneNumber);\(noteEscaped);\(contact.noteColor);\(contact.status)\n"
         }
         return result
     }

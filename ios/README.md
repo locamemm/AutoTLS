@@ -14,7 +14,7 @@ Phiên bản iOS của hệ thống **Auto Telesale Mobile**, được phát tri
 2. **Quản lý danh sách liên hệ linh hoạt:**
    - **Tải file:** Mở file text (`.txt`) từ iCloud Drive, Bộ nhớ máy (Tệp/Files).
    - **Xuất file:** Chia sẻ file `.txt` đã cập nhật trạng thái/ghi chú qua AirDrop, Zalo, Drive, Tệp,...
-   - Định dạng chuẩn: `0912345678|Ghi chú|#2563EB|Đã gọi` (hoàn toàn tương thích 1-1 với Android).
+   - Định dạng chuẩn: `0912345678;Ghi chú;#2563EB;Đã gọi` (phân tách bằng dấu chấm phẩy `;`).
    - Tự động lưu tiến độ vào bộ nhớ ứng dụng (`saved_contacts_marks.txt`).
 
 3. **Chiến dịch gọi điện tự động & Thông minh:**
