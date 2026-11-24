@@ -16,6 +16,8 @@
 		BB0000012C12345600000008 /* NoteEditorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000008 /* NoteEditorSheet.swift */; };
 		BB0000012C12345600000009 /* StatusPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000009 /* StatusPickerSheet.swift */; };
 		BB0000012C1234560000000A /* ContactActionMenuSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C1234560000000A /* ContactActionMenuSheet.swift */; };
+		BB0000012C12345600000011 /* ZaloContactRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000011 /* ZaloContactRowView.swift */; };
+		BB0000012C12345600000012 /* ZaloLookupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C12345600000012 /* ZaloLookupView.swift */; };
 		BB0000012C1234560000000B /* CallMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0000012C1234560000000B /* CallMonitor.swift */; };
 		BB0000012C1234560000000C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA0000012C1234560000000C /* Assets.xcassets */; };
 		BB0000012C123456000000F1 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA0000012C123456000000F1 /* CallKit.framework */; };
@@ -32,6 +34,8 @@
 		AA0000012C12345600000008 /* NoteEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditorSheet.swift; sourceTree = "<group>"; };
 		AA0000012C12345600000009 /* StatusPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPickerSheet.swift; sourceTree = "<group>"; };
 		AA0000012C1234560000000A /* ContactActionMenuSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactActionMenuSheet.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000011 /* ZaloContactRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZaloContactRowView.swift; sourceTree = "<group>"; };
+		AA0000012C12345600000012 /* ZaloLookupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZaloLookupView.swift; sourceTree = "<group>"; };
 		AA0000012C1234560000000B /* CallMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallMonitor.swift; sourceTree = "<group>"; };
 		AA0000012C1234560000000C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA0000012C123456000000F1 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
@@ -98,6 +102,8 @@
 				AA0000012C12345600000008 /* NoteEditorSheet.swift */,
 				AA0000012C12345600000009 /* StatusPickerSheet.swift */,
 				AA0000012C1234560000000A /* ContactActionMenuSheet.swift */,
+				AA0000012C12345600000011 /* ZaloContactRowView.swift */,
+				AA0000012C12345600000012 /* ZaloLookupView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,6 +210,8 @@
 				BB0000012C12345600000008 /* NoteEditorSheet.swift in Sources */,
 				BB0000012C12345600000009 /* StatusPickerSheet.swift in Sources */,
 				BB0000012C1234560000000A /* ContactActionMenuSheet.swift in Sources */,
+				BB0000012C12345600000011 /* ZaloContactRowView.swift in Sources */,
+				BB0000012C12345600000012 /* ZaloLookupView.swift in Sources */,
 				BB0000012C1234560000000B /* CallMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

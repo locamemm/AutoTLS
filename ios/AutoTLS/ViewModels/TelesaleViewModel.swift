@@ -21,6 +21,11 @@ class TelesaleViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var selectedStatusFilter: String = "Tất cả"
     
+    // Zalo Lookup State
+    @Published var lookedUpPhoneNumbers: Set<String> = []
+    @Published var zaloSearchText: String = ""
+    @Published var zaloFilter: String = "Tất cả" // "Tất cả", "Chưa tra", "Đã tra"
+    
     // UI Dialog Triggers (Chỉ giữ các sheet chức năng, loại bỏ hoàn toàn Alert popup)
     @Published var selectedContactForMenu: Contact? = nil
     @Published var editingNoteContact: Contact? = nil
@@ -50,6 +55,35 @@ class TelesaleViewModel: ObservableObject {
     var totalCount: Int { contacts.count }
     var calledCount: Int { contacts.filter { $0.status == "Đã gọi" }.count }
     var waitingCount: Int { contacts.filter { $0.status == "Chờ gọi" }.count }
+    
+    var filteredZaloContacts: [Contact] {
+        contacts.filter { contact in
+            let cleaned = contact.phoneNumber.filter { $0.isNumber }
+            let matchesSearch = zaloSearchText.isEmpty ||
+                contact.phoneNumber.contains(zaloSearchText) ||
+                contact.note.localizedCaseInsensitiveContains(zaloSearchText)
+            
+            let matchesFilter: Bool
+            switch zaloFilter {
+            case "Chưa tra":
+                matchesFilter = !lookedUpPhoneNumbers.contains(cleaned)
+            case "Đã tra":
+                matchesFilter = lookedUpPhoneNumbers.contains(cleaned)
+            default:
+                matchesFilter = true
+            }
+            
+            return matchesSearch && matchesFilter
+        }
+    }
+    
+    var zaloLookedUpCount: Int {
+        contacts.filter { isZaloLookedUp($0.phoneNumber) }.count
+    }
+    
+    var zaloUnlookedCount: Int {
+        max(0, contacts.count - zaloLookedUpCount)
+    }
     
     init() {
         loadTemplates()
@@ -348,18 +382,50 @@ class TelesaleViewModel: ObservableObject {
         statusMessage = "Đã lưu ghi chú cho \(contact.phoneNumber)"
     }
     
+    // MARK: - Zalo Operations
+    func isZaloLookedUp(_ phoneNumber: String) -> Bool {
+        let cleaned = phoneNumber.filter { $0.isNumber }
+        return lookedUpPhoneNumbers.contains(cleaned)
+    }
+    
+    func clearZaloLookedUp() {
+        lookedUpPhoneNumbers.removeAll()
+        statusMessage = "Đã làm mới danh sách đã tra cứu Zalo."
+    }
+    
     func openZalo(phoneNumber: String) {
         let cleaned = phoneNumber.filter { $0.isNumber }
         guard !cleaned.isEmpty else { return }
 
-        // Sao chép số điện thoại vào bộ nhớ tạm (clipboard) để sẵn sàng
+        // Sao chép số điện thoại vào bộ nhớ tạm (clipboard) để sẵn sàng dán khi cần
         #if canImport(UIKit)
         UIPasteboard.general.string = cleaned
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
+        generator.impactOccurred()
         #endif
 
-        // Mở thẳng trang cá nhân zalo.me qua trình duyệt Safari
+        lookedUpPhoneNumbers.insert(cleaned)
+        statusMessage = "Đang tra Zalo: \(cleaned) (Đã sao chép SĐT)"
+
+        // Mở thẳng trang cá nhân zalo.me qua trình duyệt Safari / Universal Link
         if let safariURL = URL(string: "https://zalo.me/\(cleaned)") {
             UIApplication.shared.open(safariURL, options: [:], completionHandler: nil)
         }
+    }
+    
+    func pasteAndOpenZalo() {
+        #if canImport(UIKit)
+        if let clipboard = UIPasteboard.general.string {
+            let digits = clipboard.filter { $0.isNumber }
+            if digits.count >= 9 {
+                openZalo(phoneNumber: digits)
+            } else {
+                statusMessage = "Clipboard không chứa số điện thoại hợp lệ (\(clipboard))."
+            }
+        } else {
+            statusMessage = "Bộ nhớ tạm (Clipboard) đang trống."
+        }
+        #endif
     }
 }

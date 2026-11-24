@@ -32,8 +32,12 @@ Phiên bản iOS của hệ thống **Auto Telesale Mobile**, được phát tri
    - Lưu trữ danh sách mẫu ghi chú nhanh (VD: *Khách hẹn gọi lại*, *Không nghe máy*, *Khách chốt đơn*, *Sai số*).
    - 1 chạm để áp dụng cả nội dung lẫn màu sắc.
 
-6. **Tra cứu Zalo siêu tốc:**
-   - Mở trực tiếp `zalo.me/<số_điện_thoại>` để kiểm tra thông tin đối tác/khách hàng.
+6. **Tab "Tra cứu Zalo" chuyên biệt - Tối ưu 1 chạm (One-tap Zalo Lookup):**
+   - Tab riêng biệt trên thanh TabBar bên cạnh tab "Telesale".
+   - **Thao tác 1 chạm siêu tốc**: Chỉ cần chạm 1 phát vào bất kỳ dòng số điện thoại nào trong danh bạ, ứng dụng lập tức copy SĐT vào clipboard, rung phản hồi và mở ngay trang profile `zalo.me/<số_điện_thoại>` của khách hàng trên Zalo/Safari.
+   - **Đánh dấu trực quan**: Số đã tra cứu được tự động gắn badge "Đã tra" (màu xanh lá) giúp phân biệt rõ ràng không bị trùng lặp.
+   - **Tra cứu nhanh số bất kỳ**: Ô nhập/dán số linh hoạt ở đầu tab với nút dán 1 chạm từ Clipboard để tra cứu ngay cả các số lẻ ngoài danh bạ.
+   - **Bộ lọc thông minh**: Lọc tức thì theo "Tất cả", "Chưa tra", "Đã tra", cùng thanh tìm kiếm SĐT/ghi chú tức thì.
 
 ---
 

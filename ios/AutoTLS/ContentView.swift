@@ -4,6 +4,68 @@ import UniformTypeIdentifiers
 struct ContentView: View {
     @StateObject private var viewModel = TelesaleViewModel()
     @State private var isImportingFile = false
+    @State private var selectedTab: Int = 0
+    
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            // Tab 1: Telesale Tự Động & Chiến Dịch Gọi
+            TelesaleCampaignView(viewModel: viewModel, isImportingFile: $isImportingFile)
+                .tabItem {
+                    Label("Telesale", systemImage: "phone.fill")
+                }
+                .tag(0)
+            
+            // Tab 2: Tra Cứu Zalo Tốc Độ Cao (1 Chạm)
+            ZaloLookupView(viewModel: viewModel, isImportingFile: $isImportingFile)
+                .tabItem {
+                    Label("Tra cứu Zalo", systemImage: "message.circle.fill")
+                }
+                .tag(1)
+        }
+        .preferredColorScheme(.dark)
+        .fileImporter(
+            isPresented: $isImportingFile,
+            allowedContentTypes: [.plainText]
+        ) { result in
+            switch result {
+            case .success(let selectedURL):
+                viewModel.loadContactsFromURL(selectedURL)
+            case .failure(let error):
+                viewModel.statusMessage = "Lỗi chọn file: \(error.localizedDescription)"
+            }
+        }
+        .sheet(item: $viewModel.selectedContactForMenu) { contact in
+            if #available(iOS 16.0, *) {
+                ContactActionMenuSheet(contact: contact, viewModel: viewModel)
+                    .presentationDetents([.medium])
+            } else {
+                ContactActionMenuSheet(contact: contact, viewModel: viewModel)
+            }
+        }
+        .sheet(item: $viewModel.editingNoteContact) { contact in
+            NoteEditorSheet(contact: contact, viewModel: viewModel)
+        }
+        .sheet(item: $viewModel.editingStatusContact) { contact in
+            if #available(iOS 16.0, *) {
+                StatusPickerSheet(contact: contact, viewModel: viewModel)
+                    .presentationDetents([.fraction(0.35)])
+            } else {
+                StatusPickerSheet(contact: contact, viewModel: viewModel)
+            }
+        }
+        .sheet(isPresented: $viewModel.isShowingShareSheet) {
+            if let url = viewModel.shareExportURL {
+                ShareActivityView(activityItems: [url])
+            }
+        }
+    }
+}
+
+// MARK: - Telesale Campaign View (Tab 1)
+
+struct TelesaleCampaignView: View {
+    @ObservedObject var viewModel: TelesaleViewModel
+    @Binding var isImportingFile: Bool
     
     var body: some View {
         NavigationView {
@@ -37,44 +99,8 @@ struct ContentView: View {
                     }
                 }
             }
-            .fileImporter(
-                isPresented: $isImportingFile,
-                allowedContentTypes: [.plainText]
-            ) { result in
-                switch result {
-                case .success(let selectedURL):
-                    viewModel.loadContactsFromURL(selectedURL)
-                case .failure(let error):
-                    viewModel.statusMessage = "Lỗi chọn file: \(error.localizedDescription)"
-                }
-            }
-            .sheet(item: $viewModel.selectedContactForMenu) { contact in
-                if #available(iOS 16.0, *) {
-                    ContactActionMenuSheet(contact: contact, viewModel: viewModel)
-                        .presentationDetents([.medium])
-                } else {
-                    ContactActionMenuSheet(contact: contact, viewModel: viewModel)
-                }
-            }
-            .sheet(item: $viewModel.editingNoteContact) { contact in
-                NoteEditorSheet(contact: contact, viewModel: viewModel)
-            }
-            .sheet(item: $viewModel.editingStatusContact) { contact in
-                if #available(iOS 16.0, *) {
-                    StatusPickerSheet(contact: contact, viewModel: viewModel)
-                        .presentationDetents([.fraction(0.35)])
-                } else {
-                    StatusPickerSheet(contact: contact, viewModel: viewModel)
-                }
-            }
-            .sheet(isPresented: $viewModel.isShowingShareSheet) {
-                if let url = viewModel.shareExportURL {
-                    ShareActivityView(activityItems: [url])
-                }
-            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .preferredColorScheme(.dark)
     }
     
     // MARK: - Subviews
@@ -284,6 +310,8 @@ struct ContentView: View {
         .background(Color(.systemGroupedBackground))
     }
 }
+
+// MARK: - Share Activity View
 
 struct ShareActivityView: UIViewControllerRepresentable {
     let activityItems: [Any]
