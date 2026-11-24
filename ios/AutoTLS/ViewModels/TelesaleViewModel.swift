@@ -349,10 +349,38 @@ class TelesaleViewModel: ObservableObject {
         let cleaned = phoneNumber.filter { $0.isNumber || $0 == "+" }
         guard let url = URL(string: "tel://\(cleaned)") else { return }
         
+        #if canImport(UIKit)
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
+        generator.impactOccurred()
+        #endif
+        
         if UIApplication.shared.canOpenURL(url) {
+            statusMessage = "Đang quay số: \(cleaned)"
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         } else {
             statusMessage = "Thiết bị không hỗ trợ tính năng gọi điện trực tiếp."
+        }
+    }
+    
+    func sendSMS(phoneNumber: String) {
+        let cleaned = phoneNumber.filter { $0.isNumber || $0 == "+" }
+        guard !cleaned.isEmpty else { return }
+        
+        #if canImport(UIKit)
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.prepare()
+        generator.impactOccurred()
+        #endif
+        
+        if let url = URL(string: "sms:\(cleaned)"), UIApplication.shared.canOpenURL(url) {
+            statusMessage = "Đang mở tin nhắn SIM cho \(cleaned)..."
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else if let url = URL(string: "sms://\(cleaned)"), UIApplication.shared.canOpenURL(url) {
+            statusMessage = "Đang mở tin nhắn SIM cho \(cleaned)..."
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            statusMessage = "Thiết bị không hỗ trợ gửi tin nhắn SMS."
         }
     }
     

@@ -4,6 +4,8 @@ struct ZaloContactRowView: View {
     let contact: Contact
     let isLookedUp: Bool
     let onZaloTap: () -> Void
+    let onCallTap: () -> Void
+    let onSmsTap: () -> Void
     let onNoteTap: () -> Void
     
     var body: some View {
@@ -103,6 +105,31 @@ struct ZaloContactRowView: View {
         // THAO TÁC 1 CHẠM: Chạm vào bất kỳ vị trí nào trên thẻ/dòng đều mở ngay Zalo!
         .onTapGesture {
             onZaloTap()
+        }
+        // THAO TÁC GIỮ CHẠM (LONG PRESS): Hiện menu tùy chọn Gọi & Nhắn tin bằng SIM
+        .contextMenu {
+            Button(action: onCallTap) {
+                Label("Gọi", systemImage: "phone.fill")
+            }
+            
+            Button(action: onSmsTap) {
+                Label("Nhắn tin bằng SIM", systemImage: "bubble.left.and.bubble.right.fill")
+            }
+            
+            Button(action: {
+                #if canImport(UIKit)
+                UIPasteboard.general.string = contact.phoneNumber
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.prepare()
+                generator.impactOccurred()
+                #endif
+            }) {
+                Label("Sao chép số", systemImage: "doc.on.doc")
+            }
+            
+            Button(action: onZaloTap) {
+                Label("Tra cứu Zalo", systemImage: "arrow.up.right.square")
+            }
         }
     }
 }

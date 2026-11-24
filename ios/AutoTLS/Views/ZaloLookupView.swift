@@ -141,6 +141,21 @@ struct ZaloLookupView: View {
                         .cornerRadius(10)
                 }
                 .disabled(directPhoneInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                .contextMenu {
+                    if !directPhoneInput.isEmpty {
+                        Button(action: {
+                            viewModel.dial(phoneNumber: directPhoneInput)
+                        }) {
+                            Label("Gọi số này", systemImage: "phone.fill")
+                        }
+                        
+                        Button(action: {
+                            viewModel.sendSMS(phoneNumber: directPhoneInput)
+                        }) {
+                            Label("Nhắn tin bằng SIM", systemImage: "bubble.left.and.bubble.right.fill")
+                        }
+                    }
+                }
             }
         }
         .padding(.horizontal, 16)
@@ -237,6 +252,14 @@ struct ZaloLookupView: View {
                                     // 1 CHẠM DUY NHẤT: Mở ngay Zalo profile
                                     viewModel.openZalo(phoneNumber: contact.phoneNumber)
                                 },
+                                onCallTap: {
+                                    // GIỮ CHẠM -> GỌI BẰNG SIM
+                                    viewModel.dial(phoneNumber: contact.phoneNumber)
+                                },
+                                onSmsTap: {
+                                    // GIỮ CHẠM -> NHẮN TIN BẰNG SIM
+                                    viewModel.sendSMS(phoneNumber: contact.phoneNumber)
+                                },
                                 onNoteTap: {
                                     viewModel.editingNoteContact = contact
                                 }
@@ -251,3 +274,4 @@ struct ZaloLookupView: View {
         .background(Color(.systemGroupedBackground))
     }
 }
+

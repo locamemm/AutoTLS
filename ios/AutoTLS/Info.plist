@@ -26,6 +26,7 @@
 	<array>
 		<string>tel</string>
 		<string>zalo</string>
+		<string>sms</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
